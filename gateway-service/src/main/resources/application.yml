@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://20.75.1.70:8080
+  application:
+    name: gateway-service

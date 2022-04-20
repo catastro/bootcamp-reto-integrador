@@ -1,0 +1,411 @@
+{
+	"info": {
+		"_postman_id": "c15d1b57-2847-4764-a766-ea9e2471b61f",
+		"name": "Reto-integrador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Generar token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var token = jsonData.access_token;\r",
+									"postman.setEnvironmentVariable(\"token\",token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "bootcamp-app",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "jPHDIGAyS8M0NvH9gNlCOlBDrCRw3tnP",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "davis",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "davis",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9999/realms/bootcamp-app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"realms",
+								"bootcamp-app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar token AKS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var token = jsonData.access_token;\r",
+									"postman.setEnvironmentVariable(\"token\",token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "bootcamp-app",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "8zfTuTwKt9knem5fhjoNHNwhNHKDW28k",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "davis",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "davis",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://20.69.199.107:8080/realms/bootcamp-app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"20",
+								"69",
+								"199",
+								"107"
+							],
+							"port": "8080",
+							"path": [
+								"realms",
+								"bootcamp-app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOCAL",
+			"item": [
+				{
+					"name": "Listar Servicios APP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/services?channel=BM",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"services"
+							],
+							"query": [
+								{
+									"key": "channel",
+									"value": "BM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guardar Servicios APP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Pago de Luz\",\r\n    \"channel\": \"BM\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/services",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guardar Transaccion APP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"serviceId\" : \"625ce3f0bf80e4e700f40af6\",\r\n    \"supplyNumber\": \"1452477\",\r\n    \"amount\":\"124\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guardar Servicios UX",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Pago de Luz\",\r\n    \"channel\": \"BM\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/services",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guardar favoritos UX",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"serviceId\":\"1234533\",\r\n    \"type\":\"favorito4\",\r\n    \"name\": \"celular bitel2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/favorites",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guardar Transaccion UX",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"serviceId\" : \"625ce3f0bf80e4e700f40af6\",\r\n    \"supplyNumber\": \"1452477\",\r\n    \"amount\":\"124\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Servicios UX",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/services?channel=BM",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"services"
+							],
+							"query": [
+								{
+									"key": "channel",
+									"value": "BM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

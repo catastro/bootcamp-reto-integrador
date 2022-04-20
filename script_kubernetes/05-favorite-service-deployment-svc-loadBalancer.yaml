@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favorite-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: favorite-service
+  template:
+    metadata:
+      labels:
+        role: favorite-service
+    spec:
+      containers:
+      - name: favorite-service
+        image: acrbootcamp1.azurecr.io/favorite-service:0.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: acr-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: favorite-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    role: favorite-service

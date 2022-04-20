@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: config-server
+  template:
+    metadata:
+      labels:
+        role: config-server
+    spec:
+      containers:
+      - name: config-server
+        image: acrbootcamp1.azurecr.io/config-server:0.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+      imagePullSecrets:
+        - name: acr-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8888
+  selector:
+    role: config-server
